@@ -1,0 +1,58 @@
+/* CSS Document */
+
+.slider-multithumb {
+  padding: 6px;
+  width: 350px;
+  touch-action: pan-y;
+  outline: 1px solid red;
+}
+
+.slider-multithumb .slider-group {
+  color: black;
+}
+
+.slider-multithumb .slider-group .value {
+  font-size: 80%;
+}
+
+.slider-multithumb .slider-group .rail {
+  stroke: currentcolor;
+  stroke-width: 2px;
+  fill-opacity: 0;
+}
+
+.slider-multithumb .slider-group .range {
+  fill: currentcolor;
+  opacity: 0.4;
+}
+
+.slider-multithumb .slider-group .focus-ring {
+  fill-opacity: 0;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: rotateX(10deg)
+}
+
+.slider-multithumb .slider-group.active g.rail {
+  opacity: 0.8;
+}
+
+.slider-multithumb .slider-group.active g.range {
+  fill: #005a9c;
+  fill-opacity: 1;
+}
+
+.slider-multithumb [role="slider"]:focus {
+  outline: none;
+  color: #005a9c;
+}
+
+.slider-multithumb [role="slider"]:hover .focus-ring {
+  stroke: currentcolor;
+  stroke-width: 1px;
+  stroke-opacity: 0.8;
+}
+
+.slider-multithumb [role="slider"]:hover .focus-ring:focus, .slider-multithumb [role="slider"]:hover .focus-ring:hover, .slider-multithumb [role="slider"]:hover .focus-ring:active {
+  outline: none !important;
+}
