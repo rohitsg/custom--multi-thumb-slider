@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .timelineSlider {
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-right: 300px solid #f1f1f1;
+      position: relative;
+      /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); */
+      margin-top: 50px;
+      /* overflow: hidden; */
+  box-shadow: 0 16px 10px -17px rgba(0, 0, 0, 0.1);
+    }
+    /* .timelineSlider::before {
+      content: "";
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-right: 300px solid #f1f1f1;
+      position: absolute;
+      top: -10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    } */
+    /* left: -300px; */
+
+    /* .timelineSlider::after {
+      content: "";
+      width: 0;
+      height: 0;
+      border-top: 0;
+      border-bottom: 20px solid red;
+      border-left: 20px solid transparent;
+      position: absolute;
+      top: -10px;
+      left: 0;
+    } */
+    .slider {
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 300px solid #f1f1f1;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+
+    /* .slider::before {
+      content: "";
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-right: 300px solid #f1f1f1;
+      position: absolute;
+      top: -10px;
+      left: -300px;
+    }
+
+    .slider::after {
+      content: "";
+      width: 0;
+      height: 0;
+      border-top: 0;
+      border-bottom: 20px solid #f1f1f1;
+      border-left: 20px solid transparent;
+      position: absolute;
+      top: -10px;
+      left: 0;
+    } */
+    .thumb {
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 20px solid gray;
+      position: absolute;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+    }
+
+    .thumb-low {
+      left: 0;
+    }
+
+    .thumb-middle {
+      left: 150px;
+    }
+
+    .thumb-high {
+      left: 300px;
+    }
+    .thumb-low:active, .thumb-middle:active, .thumb-high:active   {
+      border-top-color: #2196F3;
+    }
+  </style>
+</head>
+<body>
+  <div class="timelineSlider">
+    <div id="thumbLow" class="thumb thumb-low"></div>
+    <div id="thumbMiddle" class="thumb thumb-middle"></div>
+    <div id="thumbHigh" class="thumb thumb-high"></div>
+  </div>
+
+  <script>
+    var timelineSlider = document.querySelector('.timelineSlider');
+    var thumbLow = document.getElementById('thumbLow');
+    var thumbMiddle = document.getElementById('thumbMiddle');
+    var thumbHigh = document.getElementById('thumbHigh');
+    var isThumbLowActive = false;
+    var isThumbMiddleActive = false;
+    var isThumbHighActive = false;
+    var thumbWidth = 20;
+
+    var handleLowThumbMouseDownLogic = function() {
+      isThumbLowActive = true;
+    };
+
+    thumbLow.addEventListener('mousedown', handleLowThumbMouseDownLogic);
+    thumbLow.addEventListener('pointerdown', handleLowThumbMouseDownLogic);
+    thumbLow.addEventListener('touchstart', handleLowThumbMouseDownLogic);
+
+    var handleMiddleThumbMouseDownLogic = function() {
+      isThumbMiddleActive = true;
+    };
+
+    thumbMiddle.addEventListener('mousedown', handleMiddleThumbMouseDownLogic);
+    thumbMiddle.addEventListener('pointerdown', handleMiddleThumbMouseDownLogic);
+    thumbMiddle.addEventListener('touchstart', handleMiddleThumbMouseDownLogic);
+
+
+    var handleHighThumbMouseDownLogic = function() {
+      isThumbHighActive = true;
+    };
+
+    thumbHigh.addEventListener('mousedown', handleHighThumbMouseDownLogic);
+    thumbHigh.addEventListener('pointerdown', handleHighThumbMouseDownLogic);
+    thumbHigh.addEventListener('touchstart', handleHighThumbMouseDownLogic);
+
+    var handleMouseUpLogic = function() {
+      isThumbLowActive = false;
+      isThumbMiddleActive = false;
+      isThumbHighActive = false;
+    };
+
+    document.addEventListener('mouseup', handleMouseUpLogic);
+    document.addEventListener('pointerup', handleMouseUpLogic);
+    document.addEventListener('touchend', handleMouseUpLogic);
+    
+
+    var handleSliderLogic = function(event) {
+      if (isThumbLowActive) {
+        var position = event.pageX - timelineSlider.offsetLeft;
+        if (position < 0) {
+          position = 0;
+        } else if (position > thumbMiddle.offsetLeft - thumbWidth) {
+          position = thumbMiddle.offsetLeft - thumbWidth;
+        }
+        thumbLow.style.left = position + 'px';
+      }
+
+      if (isThumbMiddleActive) {
+        var position = event.pageX - timelineSlider.offsetLeft;
+        if (position < thumbLow.offsetLeft + thumbWidth) {
+          position = thumbLow.offsetLeft + thumbWidth;
+        } else if (position > thumbHigh.offsetLeft - thumbWidth) {
+          position = thumbHigh.offsetLeft - thumbWidth;
+        }
+        thumbMiddle.style.left = position + 'px';
+      }
+
+      if (isThumbHighActive) {
+        var position = event.pageX - timelineSlider.offsetLeft;
+        if (position < thumbMiddle.offsetLeft + thumbWidth) {
+          position = thumbMiddle.offsetLeft + thumbWidth;
+        } else if (position > timelineSlider.offsetWidth) {
+          position = timelineSlider.offsetWidth;
+        }
+        thumbHigh.style.left = position + 'px';
+      }
+    }
+
+    timelineSlider.addEventListener('mousemove', handleSliderLogic);
+    timelineSlider.addEventListener('pointermove', handleSliderLogic);
+    timelineSlider.addEventListener('touchmove', handleSliderLogic);
+  </script>
+</body>
+</html>
